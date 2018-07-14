@@ -1,9 +1,11 @@
 package me.philcali.config.proxy.resolver;
 
+import java.lang.reflect.Type;
+
 public class LongResolver implements ITypeLookup {
 
     @Override
-    public Object resolve(final Object value, final Class<?> returnType) {
+    public Object resolve(final Object value, final Class<?> returnClass, final Type returnType) {
         return Long.parseLong(value.toString());
     }
 

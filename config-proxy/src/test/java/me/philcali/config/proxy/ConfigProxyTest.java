@@ -5,6 +5,8 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -21,6 +23,7 @@ public class ConfigProxyTest {
     private interface IConfigTest {
         String getName();
         int getAge();
+        List<String> getScopes();
     }
 
     @ParameterGroup("Person")
@@ -47,13 +50,17 @@ public class ConfigProxyTest {
         IParameters parameters = mock(IParameters.class);
         IParameter nameParam = mock(IParameter.class);
         IParameter ageParam = mock(IParameter.class);
+        IParameter scopeParam = mock(IParameter.class);
         doReturn(parameters).when(provider).get(eq("IConfigTest"));
         doReturn(Optional.of(nameParam)).when(parameters).getParameter(eq("Name"));
         doReturn(Optional.of(ageParam)).when(parameters).getParameter(eq("Age"));
+        doReturn(Optional.of(scopeParam)).when(parameters).getParameter(eq("Scopes"));
         doReturn("Philip Cali").when(nameParam).getValue();
         doReturn(42).when(ageParam).getValue();
+        doReturn("email,profile").when(scopeParam).getValue();
         assertEquals("Philip Cali", test.getName());
         assertEquals(42, test.getAge());
+        assertEquals(Arrays.asList("email", "profile"), test.getScopes());
     }
 
     @Test

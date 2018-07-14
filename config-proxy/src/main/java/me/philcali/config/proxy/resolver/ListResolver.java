@@ -1,6 +1,8 @@
 package me.philcali.config.proxy.resolver;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +16,7 @@ public class ListResolver implements ITypeLookup {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Object resolve(final Object value, final Class<?> returnType) {
+    public Object resolve(final Object value, final Class<?> returnClass, final Type returnType) {
         List<Object> things = null;
         if (value instanceof String) {
             things = Arrays.asList(((String) value).split("\\s*,\\s*"));
@@ -23,8 +25,9 @@ public class ListResolver implements ITypeLookup {
         } else {
             things = (List<Object>) value;
         }
+        final Type childType = ((ParameterizedType) returnType).getActualTypeArguments()[0];
         return things.stream()
-                .map(val -> recursiveResolver.resolve(val, returnType))
+                .map(val -> recursiveResolver.resolve(val, (Class<?>) childType, childType))
                 .collect(Collectors.toList());
     }
 

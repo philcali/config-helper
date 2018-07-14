@@ -1,5 +1,6 @@
 package me.philcali.config.proxy.resolver;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -16,11 +17,11 @@ public class TypeResolverChain implements ITypeResolver {
     }
 
     @Override
-    public Object resolve(final Object value, final Class<?> returnType) {
+    public Object resolve(final Object value, final Class<?> returnClass, final Type returnType) {
         return resolvers.stream()
-                .filter(resolver -> resolver.isApplicable(returnType))
+                .filter(resolver -> resolver.isApplicable(returnClass))
                 .findFirst()
-                .map(resolver -> resolver.resolve(value, returnType))
+                .map(resolver -> resolver.resolve(value, returnClass, returnType))
                 .orElse(null);
     }
 }

@@ -46,7 +46,7 @@ public class ConfigInvocationHandler implements InvocationHandler {
                 .orElseGet(ErrorParameterRecovery::new);
         // throws ConfigProvisionException
         return provider.get(groupName).getParameter(parameterName)
-                .map(param -> resolver.resolve(param.getValue(), method.getReturnType()))
+                .map(param -> resolver.resolve(param.getValue(), method.getReturnType(), method.getGenericReturnType()))
                 .orElseGet(() -> recovery.recover(groupName, parameterName));
     }
 

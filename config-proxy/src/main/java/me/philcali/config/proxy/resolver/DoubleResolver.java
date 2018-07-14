@@ -1,5 +1,7 @@
 package me.philcali.config.proxy.resolver;
 
+import java.lang.reflect.Type;
+
 public class DoubleResolver implements ITypeLookup {
     @Override
     public boolean isApplicable(final Class<?> returnType) {
@@ -8,7 +10,7 @@ public class DoubleResolver implements ITypeLookup {
     }
 
     @Override
-    public Object resolve(final Object value, final Class<?> returnType) {
+    public Object resolve(final Object value, final Class<?> returnClass, final Type returnType) {
         return Double.parseDouble(value.toString());
     }
 }

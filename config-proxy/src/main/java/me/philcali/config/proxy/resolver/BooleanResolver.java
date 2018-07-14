@@ -1,9 +1,11 @@
 package me.philcali.config.proxy.resolver;
 
+import java.lang.reflect.Type;
+
 public class BooleanResolver implements ITypeLookup {
 
     @Override
-    public Object resolve(Object value, Class<?> returnType) {
+    public Object resolve(final Object value, final Class<?> returnClass, final Type returnType) {
         if (value.equals(1)) {
             return true;
         } else if (value.equals(0)) {
