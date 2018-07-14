@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import me.philcali.config.api.IConfigFactory;
 import me.philcali.config.api.IConfigProvider;
+import me.philcali.config.api.chain.DefaultConfigProviderChain;
 import me.philcali.config.proxy.resolver.DefaultTypeResolverChain;
 import me.philcali.config.proxy.resolver.ITypeResolver;
 
@@ -19,6 +20,10 @@ public class ConfigProxyFactory implements IConfigFactory {
 
     public ConfigProxyFactory(final IConfigProvider provider) {
         this(provider, new DefaultTypeResolverChain());
+    }
+
+    public ConfigProxyFactory() {
+        this(new DefaultConfigProviderChain());
     }
 
     @SuppressWarnings("unchecked")

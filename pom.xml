@@ -22,6 +22,7 @@
   	<module>config-api</module>
   	<module>config-ssm</module>
   	<module>config-env</module>
+  	<module>config-system</module>
   </modules>
   
   <dependencyManagement>

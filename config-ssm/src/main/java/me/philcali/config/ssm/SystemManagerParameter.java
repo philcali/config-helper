@@ -1,5 +1,7 @@
 package me.philcali.config.ssm;
 
+import java.util.Arrays;
+
 import com.amazonaws.services.simplesystemsmanagement.model.Parameter;
 import com.amazonaws.services.simplesystemsmanagement.model.ParameterType;
 
@@ -21,7 +23,7 @@ public class SystemManagerParameter implements IParameter {
     public Object getValue() {
         switch (ParameterType.valueOf(parameter.getType())) {
         case StringList:
-            return parameter.getValue().split("\\s*,\\s*");
+            return Arrays.asList(parameter.getValue().split("\\s*,\\s*"));
         default:
             return parameter.getValue();
         }
