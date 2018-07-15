@@ -1,15 +1,17 @@
 package me.philcali.config.env;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import me.philcali.config.api.IParameter;
 import me.philcali.config.api.IParameters;
 
 public class EnvConfigParameters implements IParameters {
-    private final String groupName;
+    private final String[] groupName;
 
-    public EnvConfigParameters(final String groupName) {
+    public EnvConfigParameters(final String[] groupName) {
         this.groupName = groupName;
     }
 
@@ -17,11 +19,16 @@ public class EnvConfigParameters implements IParameters {
         return new EnvConfigParameter(parameterName, value);
     }
 
+    private String generateEnvName(final String parameterName) {
+        return (Arrays.stream(groupName)
+                .map(name -> name + "_")
+                .collect(Collectors.joining("")) + parameterName).toUpperCase();
+    }
+
     @Override
     public Optional<IParameter> getParameter(final String name) {
-        final String parameterName = (groupName + name).toUpperCase();
-        return Optional.ofNullable(System.getenv(parameterName))
-                .map(value -> convertParameter(parameterName, value));
+        return Optional.ofNullable(System.getenv(generateEnvName(name)))
+                .map(value -> convertParameter(name, value));
     }
 
     @Override
@@ -30,6 +37,11 @@ public class EnvConfigParameters implements IParameters {
                 .map(this::getParameter)
                 .filter(Optional::isPresent)
                 .map(Optional::get);
+    }
+
+    @Override
+    public String[] getGroupName() {
+        return groupName;
     }
 
 }

@@ -1,8 +1,5 @@
 package me.philcali.config.ssm;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement;
 import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagementClientBuilder;
 
@@ -24,9 +21,6 @@ public class SystemManagerConfigProvider implements IConfigProvider {
 
     @Override
     public IParameters get(final String ... groupName) throws ConfigProvisionException {
-        // parts.addPart("Prod").addPart("Application") == "/Prod/Application/{groupName}"
-        return new SystemManagerParameters(Arrays.stream(groupName)
-                .map(part -> "/" + part)
-                .collect(Collectors.joining()), ssm);
+        return new SystemManagerParameters(groupName, ssm);
     }
 }

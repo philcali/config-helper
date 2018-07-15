@@ -21,6 +21,11 @@ public class ConfigProviderChainParameters implements IParameters {
     }
 
     @Override
+    public String[] getGroupName() {
+        return groupName;
+    }
+
+    @Override
     public Optional<IParameter> getParameter(final String name) {
         return providers.stream()
                 .map(provider -> provider.get(groupName).getParameter(name))
