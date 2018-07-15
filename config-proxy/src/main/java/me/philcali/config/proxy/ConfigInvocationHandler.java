@@ -11,22 +11,17 @@ import me.philcali.config.annotations.Parameter;
 import me.philcali.config.annotations.ParameterGroup;
 import me.philcali.config.annotations.recovery.ErrorParameterRecovery;
 import me.philcali.config.annotations.recovery.IParameterRecovery;
-import me.philcali.config.api.IConfigProvider;
-import me.philcali.config.proxy.resolver.ITypeResolver;
 
 public class ConfigInvocationHandler implements InvocationHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigInvocationHandler.class);
 
-    private final IConfigProvider provider;
-    private final ITypeResolver resolver;
+    private final ConfigProxyFactoryOptions options;
     private final Optional<String> parameterGroup;
 
     public ConfigInvocationHandler(
-            final IConfigProvider provider,
-            final ITypeResolver resolver,
+            final ConfigProxyFactoryOptions options,
             final Optional<String> parameterGroup) {
-        this.provider = provider;
-        this.resolver = resolver;
+        this.options = options;
         this.parameterGroup = parameterGroup;
     }
 
@@ -45,8 +40,9 @@ public class ConfigInvocationHandler implements InvocationHandler {
                 .flatMap(this::instantiateRecovery)
                 .orElseGet(ErrorParameterRecovery::new);
         // throws ConfigProvisionException
-        return provider.get(groupName).getParameter(parameterName)
-                .map(param -> resolver.resolve(param.getValue(), method.getReturnType(), method.getGenericReturnType()))
+        return options.getConfigProvider().get(options.getGroupPrefix().replace(groupName)).getParameter(parameterName)
+                .map(param -> options.getTypeResolver()
+                        .resolve(param.getValue(), method.getReturnType(), method.getGenericReturnType()))
                 .orElseGet(() -> recovery.recover(groupName, parameterName));
     }
 

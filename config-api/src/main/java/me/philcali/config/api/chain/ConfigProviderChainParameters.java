@@ -10,17 +10,14 @@ import me.philcali.config.api.IParameter;
 import me.philcali.config.api.IParameters;
 
 public class ConfigProviderChainParameters implements IParameters {
-    private final String groupName;
+    private final String[] groupName;
     private final List<IConfigProvider> providers;
 
-    public ConfigProviderChainParameters(final String groupName, final List<IConfigProvider> providers) {
+    public ConfigProviderChainParameters(
+            final String[] groupName,
+            final List<IConfigProvider> providers) {
         this.groupName = groupName;
         this.providers = providers;
-    }
-
-    @Override
-    public String getGroup() {
-        return groupName;
     }
 
     @Override

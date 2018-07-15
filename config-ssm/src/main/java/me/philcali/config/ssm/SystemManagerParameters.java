@@ -22,11 +22,6 @@ public class SystemManagerParameters implements IParameters {
         this.ssm = ssm;
     }
 
-    @Override
-    public String getGroup() {
-        return groupName;
-    }
-
     private SystemManagerParameter convertParameter(final Parameter parameter) {
         return new SystemManagerParameter(parameter);
     }

@@ -14,7 +14,7 @@ public class ConfigProviderChain implements IConfigProvider {
     }
 
     @Override
-    public IParameters get(final String groupName) throws ConfigProvisionException {
+    public IParameters get(final String ... groupName) throws ConfigProvisionException {
         return new ConfigProviderChainParameters(groupName, providers);
     }
 }

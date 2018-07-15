@@ -1,6 +1,7 @@
 package me.philcali.config.proxy;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyVararg;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -41,7 +42,9 @@ public class ConfigProxyTest {
     @Before
     public void setUp() {
         provider = mock(IConfigProvider.class);
-        proxy = new ConfigProxyFactory(provider);
+        proxy = new ConfigProxyFactory(ConfigProxyFactoryOptions.builder()
+                .withConfigProvider(provider)
+                .build());
     }
 
     @Test
@@ -51,7 +54,7 @@ public class ConfigProxyTest {
         IParameter nameParam = mock(IParameter.class);
         IParameter ageParam = mock(IParameter.class);
         IParameter scopeParam = mock(IParameter.class);
-        doReturn(parameters).when(provider).get(eq("IConfigTest"));
+        doReturn(parameters).when(provider).get(anyVararg());
         doReturn(Optional.of(nameParam)).when(parameters).getParameter(eq("Name"));
         doReturn(Optional.of(ageParam)).when(parameters).getParameter(eq("Age"));
         doReturn(Optional.of(scopeParam)).when(parameters).getParameter(eq("Scopes"));
@@ -69,7 +72,7 @@ public class ConfigProxyTest {
         IParameters parameters = mock(IParameters.class);
         IParameter nameParam = mock(IParameter.class);
         IParameter ageParam = mock(IParameter.class);
-        doReturn(parameters).when(provider).get(eq("Person"));
+        doReturn(parameters).when(provider).get(anyVararg());
         doReturn(Optional.of(nameParam)).when(parameters).getParameter(eq("name"));
         doReturn(Optional.of(ageParam)).when(parameters).getParameter(eq("age"));
         doReturn("Philip Cali").when(nameParam).getValue();

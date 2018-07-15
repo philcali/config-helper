@@ -13,18 +13,13 @@ public class SystemPropertyParameters implements IParameters {
         this.groupName = groupName;
     }
 
-    @Override
-    public String getGroup() {
-        return groupName;
-    }
-
     private IParameter convertParameter(final String key, final String value) {
         return new SystemPropertyParameter(groupName, key, value);
     }
 
     @Override
     public Optional<IParameter> getParameter(final String name) {
-        return Optional.ofNullable(System.getProperty(groupName + "." + name))
+        return Optional.ofNullable(System.getProperty(groupName + name))
                 .map(value -> convertParameter(name, value));
     }
 

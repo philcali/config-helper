@@ -20,8 +20,8 @@ public class SystemPropertyConfigProviderTest {
     @Test
     public void testGet() {
         assertTrue(provider.get("user").getParameter("home").isPresent());
-        assertFalse(provider.get("farts").getParameter("alot").isPresent());
-        System.setProperty("farts.alot", "true");
-        assertEquals("true", provider.get("farts").getParameter("alot").get().getValue());
+        assertFalse(provider.get("dev", "farts").getParameter("alot").isPresent());
+        System.setProperty("dev.farts.alot", "true");
+        assertEquals("true", provider.get("dev", "farts").getParameter("alot").get().getValue());
     }
 }

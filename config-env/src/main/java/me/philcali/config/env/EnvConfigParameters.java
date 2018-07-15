@@ -13,18 +13,13 @@ public class EnvConfigParameters implements IParameters {
         this.groupName = groupName;
     }
 
-    @Override
-    public String getGroup() {
-        return groupName;
-    }
-
     private IParameter convertParameter(final String parameterName, final String value) {
         return new EnvConfigParameter(parameterName, value);
     }
 
     @Override
     public Optional<IParameter> getParameter(final String name) {
-        final String parameterName = (groupName + "_" + name).toUpperCase();
+        final String parameterName = (groupName + name).toUpperCase();
         return Optional.ofNullable(System.getenv(parameterName))
                 .map(value -> convertParameter(parameterName, value));
     }
