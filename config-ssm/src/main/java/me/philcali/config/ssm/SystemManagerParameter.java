@@ -9,14 +9,16 @@ import me.philcali.config.api.IParameter;
 
 public class SystemManagerParameter implements IParameter {
     private final Parameter parameter;
+    private final String name;
 
     public SystemManagerParameter(final Parameter parameter) {
         this.parameter = parameter;
+        this.name = parameter.getName().substring(parameter.getName().lastIndexOf('/'));
     }
 
     @Override
     public String getName() {
-        return parameter.getName();
+        return name;
     }
 
     @Override
