@@ -9,7 +9,7 @@ import com.amazonaws.services.simplesystemsmanagement.model.GetParametersByPathR
 import com.amazonaws.services.simplesystemsmanagement.model.Parameter;
 
 public class ParameterIterator implements Iterator<Parameter> {
-    private static final int PER_PAGE = 100;
+    private static final int PER_PAGE = 10;
     private final AWSSimpleSystemsManagement ssm;
     private final GetParametersByPathRequest request;
     private Iterator<Parameter> currentPage;
@@ -31,7 +31,7 @@ public class ParameterIterator implements Iterator<Parameter> {
 
     @Override
     public boolean hasNext() {
-        if (Objects.isNull(currentPage) || (!currentPage.hasNext() && Objects.isNull(request.getNextToken()))) {
+        if (Objects.isNull(currentPage) || (!currentPage.hasNext() && Objects.nonNull(request.getNextToken()))) {
             fillPage();
         }
         return currentPage.hasNext();

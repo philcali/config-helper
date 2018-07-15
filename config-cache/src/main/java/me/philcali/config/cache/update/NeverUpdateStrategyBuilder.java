@@ -6,6 +6,6 @@ public class NeverUpdateStrategyBuilder
         extends CacheConfigUpdateStrategyBuilder<NeverUpdateStrategyBuilder> {
     @Override
     public ICacheUpdateStrategy build() {
-        return new NeverUpdateStrategy(this);
+        return new DefaultUpdateStrategy(this);
     }
 }
