@@ -20,9 +20,10 @@ public class SystemPropertyParameters implements IParameters {
     }
 
     private String generateSystemName(final String parameterName) {
-        return Arrays.stream(groupName)
+        return (Arrays.stream(groupName)
                 .map(name -> name + ".")
-                .collect(Collectors.joining()) + parameterName;
+                .collect(Collectors.joining()) + parameterName)
+                .toLowerCase();
     }
 
     @Override
@@ -40,6 +41,7 @@ public class SystemPropertyParameters implements IParameters {
     public Stream<IParameter> getParameters() {
         return System.getProperties().keySet().stream()
                 .map(String.class::cast)
+                .map(name -> name.replace(generateSystemName(""), ""))
                 .map(this::getParameter)
                 .filter(Optional::isPresent)
                 .map(Optional::get);

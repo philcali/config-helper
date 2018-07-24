@@ -22,7 +22,8 @@ public class EnvConfigParameters implements IParameters {
     private String generateEnvName(final String parameterName) {
         return (Arrays.stream(groupName)
                 .map(name -> name + "_")
-                .collect(Collectors.joining("")) + parameterName).toUpperCase();
+                .collect(Collectors.joining("")) + parameterName)
+                .toUpperCase();
     }
 
     @Override
@@ -34,6 +35,7 @@ public class EnvConfigParameters implements IParameters {
     @Override
     public Stream<IParameter> getParameters() {
         return System.getenv().keySet().stream()
+                .map(name -> name.replace(generateEnvName(""), ""))
                 .map(this::getParameter)
                 .filter(Optional::isPresent)
                 .map(Optional::get);
