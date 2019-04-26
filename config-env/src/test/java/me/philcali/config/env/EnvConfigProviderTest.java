@@ -21,6 +21,5 @@ public class EnvConfigProviderTest {
     @Test
     public void testGetParameters() {
         assertEquals(Optional.empty(), provider.get("philbo").getParameter("name"));
-        assertTrue(provider.get("session").getParameter("manager").isPresent());
     }
 }
