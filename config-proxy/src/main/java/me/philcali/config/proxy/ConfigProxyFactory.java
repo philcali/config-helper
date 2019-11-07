@@ -12,17 +12,15 @@ public class ConfigProxyFactory implements IConfigFactory {
         this.options = options;
     }
 
-
     public ConfigProxyFactory() {
         this(ConfigProxyFactoryOptions.builder().build());
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T create(final Class<T> configurationClass, final Optional<String> parameterGroup) {
-        return (T) Proxy.newProxyInstance(
-                configurationClass.getClassLoader(),
-                new Class[] { configurationClass },
-                new ConfigInvocationHandler(options, parameterGroup));
+    public <T> T create(final Class<T> configurationClass, final Optional<String> parameterGroup,
+            final String... parameters) {
+        return (T) Proxy.newProxyInstance(configurationClass.getClassLoader(), new Class[] { configurationClass },
+                new ConfigInvocationHandler(this, options, parameterGroup, parameters));
     }
 }

@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ListResolver implements ITypeLookup {
+public class ListResolver implements ITypeResolver {
     private final ITypeResolver recursiveResolver;
 
     public ListResolver(final ITypeResolver recursiveResolver) {
@@ -26,8 +26,7 @@ public class ListResolver implements ITypeLookup {
             things = (List<Object>) value;
         }
         final Type childType = ((ParameterizedType) returnType).getActualTypeArguments()[0];
-        return things.stream()
-                .map(val -> recursiveResolver.resolve(val, (Class<?>) childType, childType))
+        return things.stream().map(val -> recursiveResolver.resolve(val, (Class<?>) childType, childType))
                 .collect(Collectors.toList());
     }
 

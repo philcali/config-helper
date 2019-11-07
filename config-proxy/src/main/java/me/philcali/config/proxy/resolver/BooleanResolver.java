@@ -2,7 +2,7 @@ package me.philcali.config.proxy.resolver;
 
 import java.lang.reflect.Type;
 
-public class BooleanResolver implements ITypeLookup {
+public class BooleanResolver implements ITypeResolver {
 
     @Override
     public Object resolve(final Object value, final Class<?> returnClass, final Type returnType) {
@@ -17,8 +17,7 @@ public class BooleanResolver implements ITypeLookup {
 
     @Override
     public boolean isApplicable(final Class<?> returnType) {
-        return boolean.class.isAssignableFrom(returnType)
-                || Boolean.class.isAssignableFrom(returnType);
+        return boolean.class.isAssignableFrom(returnType) || Boolean.class.isAssignableFrom(returnType);
     }
 
 }

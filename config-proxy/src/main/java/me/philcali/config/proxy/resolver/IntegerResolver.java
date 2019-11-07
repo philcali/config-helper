@@ -2,12 +2,11 @@ package me.philcali.config.proxy.resolver;
 
 import java.lang.reflect.Type;
 
-public class IntegerResolver implements ITypeLookup {
+public class IntegerResolver implements ITypeResolver {
 
     @Override
     public boolean isApplicable(final Class<?> returnType) {
-        return int.class.isAssignableFrom(returnType)
-                || Integer.class.isAssignableFrom(returnType);
+        return int.class.isAssignableFrom(returnType) || Integer.class.isAssignableFrom(returnType);
     }
 
     @Override

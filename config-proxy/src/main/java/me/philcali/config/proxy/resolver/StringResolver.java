@@ -2,7 +2,7 @@ package me.philcali.config.proxy.resolver;
 
 import java.lang.reflect.Type;
 
-public class StringResolver implements ITypeLookup {
+public class StringResolver implements ITypeResolver {
 
     @Override
     public boolean isApplicable(final Class<?> returnType) {

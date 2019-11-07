@@ -2,7 +2,7 @@ package me.philcali.config.proxy.resolver;
 
 import java.lang.reflect.Type;
 
-public class LongResolver implements ITypeLookup {
+public class LongResolver implements ITypeResolver {
 
     @Override
     public Object resolve(final Object value, final Class<?> returnClass, final Type returnType) {
@@ -11,8 +11,7 @@ public class LongResolver implements ITypeLookup {
 
     @Override
     public boolean isApplicable(final Class<?> returnType) {
-        return long.class.isAssignableFrom(returnType)
-                || Long.class.isAssignableFrom(returnType);
+        return long.class.isAssignableFrom(returnType) || Long.class.isAssignableFrom(returnType);
     }
 
 }

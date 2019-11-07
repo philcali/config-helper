@@ -23,7 +23,9 @@ import me.philcali.config.api.IParameters;
 public class ConfigProxyTest {
     private interface IConfigTest {
         String getName();
+
         int getAge();
+
         List<String> getScopes();
     }
 
@@ -36,15 +38,39 @@ public class ConfigProxyTest {
         int getAge();
     }
 
+    private interface IConfigTest3 {
+        String getName();
+
+        IConfigTest getTest();
+    }
+
     private IConfigProvider provider;
     private IConfigFactory proxy;
 
     @Before
     public void setUp() {
         provider = mock(IConfigProvider.class);
-        proxy = new ConfigProxyFactory(ConfigProxyFactoryOptions.builder()
-                .withConfigProvider(provider)
-                .build());
+        proxy = new ConfigProxyFactory(ConfigProxyFactoryOptions.builder().withConfigProvider(provider).build());
+    }
+
+    @Test
+    public void testNestedChildInterfaces() {
+        IConfigTest3 test3 = proxy.create(IConfigTest3.class);
+        IConfigTest test = test3.getTest();
+        IParameters parameters = mock(IParameters.class);
+        IParameter nameParam = mock(IParameter.class);
+        IParameter ageParam = mock(IParameter.class);
+        IParameter scopeParam = mock(IParameter.class);
+        doReturn(parameters).when(provider).get(anyVararg());
+        doReturn(Optional.of(nameParam)).when(parameters).getParameter(eq("Name"));
+        doReturn(Optional.of(ageParam)).when(parameters).getParameter(eq("Age"));
+        doReturn(Optional.of(scopeParam)).when(parameters).getParameter(eq("Scopes"));
+        doReturn("Philip Cali").when(nameParam).getValue();
+        doReturn(42).when(ageParam).getValue();
+        doReturn("email,profile").when(scopeParam).getValue();
+        assertEquals("Philip Cali", test.getName());
+        assertEquals(42, test.getAge());
+        assertEquals(Arrays.asList("email", "profile"), test.getScopes());
     }
 
     @Test

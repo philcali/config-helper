@@ -4,7 +4,7 @@ import me.philcali.config.annotations.exception.ConfigParameterNotFoundException
 
 public class ErrorParameterRecovery implements IParameterRecovery {
     @Override
-    public Object recover(final String groupName, final String parameterName) {
+    public Object recover(final String groupName, final String ... parameterName) {
         throw new ConfigParameterNotFoundException(groupName, parameterName);
     }
 }

@@ -37,7 +37,7 @@ public class ConfigProxyFactoryOptions {
             if (Objects.isNull(groupPrefix)) {
                 groupPrefix = new DefaultParameterGroupPrefix();
             }
-            if  (Objects.isNull(typeResolver)) {
+            if (Objects.isNull(typeResolver)) {
                 typeResolver = new DefaultTypeResolverChain();
             }
             return new ConfigProxyFactoryOptions(this);
